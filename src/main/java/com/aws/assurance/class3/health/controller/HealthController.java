@@ -29,7 +29,10 @@ public class HealthController {
             @RequestParam final String latDest, @RequestParam final String longDest) {
 
         if (!isValidLatitude(latOrigin) || !isValidLatitude(latDest) || !isValidLongitude(longOrigin) || !isValidLongitude(longDest)) {
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid_coordinates");
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "error", "invalid_coordinates",
+                    "message", "As coordenadas fornecidas são inválidas"
+            ));
         }
 
         final double latitude1 = Double.parseDouble(latOrigin);
