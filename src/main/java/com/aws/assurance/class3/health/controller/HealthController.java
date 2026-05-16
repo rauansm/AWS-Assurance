@@ -1,6 +1,7 @@
 package com.aws.assurance.class3.health.controller;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +25,11 @@ public class HealthController {
     }
 
     @GetMapping("/calculate-distance")
-    public ResponseEntity<Map<String, Double>> calculateDistance(@RequestParam final String latOrigin, @RequestParam final String longOrigin,
+    public ResponseEntity<?> calculateDistance(@RequestParam final String latOrigin, @RequestParam final String longOrigin,
             @RequestParam final String latDest, @RequestParam final String longDest) {
 
         if (!isValidLatitude(latOrigin) || !isValidLatitude(latDest) || !isValidLongitude(longOrigin) || !isValidLongitude(longDest)) {
-            throw new IllegalArgumentException("invalid_coordinates");
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid_coordinates");
         }
 
         final double latitude1 = Double.parseDouble(latOrigin);
